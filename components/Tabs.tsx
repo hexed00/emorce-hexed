@@ -11,7 +11,7 @@ const tabs = [
   { id: 'core', label: 'Core Tools', icon: Download },
   { id: 'cobalt', label: 'Cobalt', icon: Layers },
   { id: 'media', label: 'Media Vault', icon: Film },
-  { id: 'extras', label: 'Extras ✞', icon: Sparkles },
+  { id: 'extras', label: 'Extras', icon: Sparkles },
 ];
 
 export default function Tabs() {
@@ -19,7 +19,7 @@ export default function Tabs() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6">
-      <div className="flex flex-wrap gap-1 mb-8 border-b border-hex-smoke/50 pb-0">
+      <div className="flex flex-wrap gap-1 mb-8 border-b border-hex-smoke/50">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = active === tab.id;
@@ -27,13 +27,9 @@ export default function Tabs() {
             <button
               key={tab.id}
               onClick={() => setActive(tab.id)}
-              className={`
-                relative flex items-center gap-2 px-4 py-3 text-sm font-medium transition-all
-                ${isActive
-                  ? 'text-hex-crimson tab-active'
-                  : 'text-hex-muted hover:text-hex-bone'
-                }
-              `}
+              className={`relative flex items-center gap-2 px-4 py-3 text-sm font-medium transition-all ${
+                isActive ? 'text-hex-crimson tab-active' : 'text-hex-muted hover:text-hex-bone'
+              }`}
             >
               <Icon className="w-4 h-4" />
               <span className="font-display tracking-wide">{tab.label}</span>
@@ -41,7 +37,6 @@ export default function Tabs() {
           );
         })}
       </div>
-
       <div className="min-h-[60vh]">
         {active === 'core' && <CoreTools />}
         {active === 'cobalt' && <CobaltSection />}
