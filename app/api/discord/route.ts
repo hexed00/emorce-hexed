@@ -35,9 +35,10 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    const defaultAvatar = Number(userId.slice(-1)) % 6;
     const avatarUrl = profile?.avatar
       ? `https://cdn.discordapp.com/avatars/${userId}/${profile.avatar}.${String(profile.avatar).startsWith('a_') ? 'gif' : 'png'}?size=1024`
-      : `https://cdn.discordapp.com/embed/avatars/${Number(BigInt(userId) >> 22n) % 6}.png`;
+      : `https://cdn.discordapp.com/embed/avatars/${defaultAvatar}.png`;
 
     const bannerUrl = profile?.banner
       ? `https://cdn.discordapp.com/banners/${userId}/${profile.banner}.${String(profile.banner).startsWith('a_') ? 'gif' : 'png'}?size=1024`
@@ -45,7 +46,7 @@ export async function POST(req: NextRequest) {
 
     const result = {
       id: userId,
-      username: profile?.username || profile?.tag?.split('#')[0] || null,
+      username: profile?.username || (profile?.tag ? String(profile.tag).split('#')[0] : null) || null,
       global_name: profile?.global_name || profile?.display_name || profile?.globalName || null,
       discriminator: profile?.discriminator || null,
       bio: profile?.bio || profile?.about_me || profile?.description || null,
