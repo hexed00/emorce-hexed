@@ -1,123 +1,86 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const COBALT_INSTANCES = [
+const COBALT = [
   'https://api.cobalt.tools/',
-  'https://cobalt-api.kwiatekmroz.com/',
+  'https://cobalt-backend.vercel.app/',
 ];
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { url, tool } = body;
+    const { url, tool, mode } = body;
 
     if (!url || typeof url !== 'string') {
-      return NextResponse.json({ error: 'Missing or invalid URL' }, { status: 400 });
+      return NextResponse.json({ error: 'Missing URL' }, { status: 400 });
     }
 
-    let parsed: URL;
     try {
-      parsed = new URL(url);
+      new URL(url);
     } catch {
-      return NextResponse.json({ error: 'Invalid URL format' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid URL' }, { status: 400 });
     }
 
     if (tool === 'discord') {
-      const idMatch = url.match(/(\d{17,20})/);
-      if (idMatch) {
-        const userId = idMatch[1];
-        const avatarUrl = `https://cdn.discordapp.com/avatars/${userId}/`;
-        return NextResponse.json({
-          message: `Discord user ID detected: ${userId}. Open profile or use avatar CDN.`,
-          downloadUrl: `https://discord.com/users/${userId}`,
-          avatarBase: avatarUrl,
-          note: 'For animated banners/avatars you need the hash from the user object.',
-        });
-      }
-      return NextResponse.json({
-        message: 'Paste a Discord user ID (17-20 digits) or profile URL.',
-        downloadUrl: null,
-      });
+      return NextResponse.json({ error: 'Use Discord deep search instead' }, { status: 400 });
     }
 
-    if (tool === 'img2gif' || tool === 'mp4gif') {
-      return NextResponse.json({
-        message: tool === 'img2gif'
-          ? 'Image\u2192GIF: use an online converter or the Cobalt instance for media.'
-          : 'MP4\u2192GIF: short clips work best. Open Cobalt or a dedicated converter.',
-        downloadUrl: url.startsWith('http') ? url : null,
-        cobalt: `https://cobalt.tools/?u=${encodeURIComponent(url)}`,
-      });
-    }
-
-    const payload = {
+    const payload: any = {
       url,
       videoQuality: '1080',
       audioFormat: 'mp3',
-      downloadMode: 'auto',
+      downloadMode: mode === 'audio' ? 'audio' : 'auto',
       filenameStyle: 'basic',
     };
 
-    let lastError = 'All instances failed';
+    let lastError = 'No instance responded';
 
-    for (const instance of COBALT_INSTANCES) {
+    for (const base of COBALT) {
       try {
-        const res = await fetch(instance, {
+        const res = await fetch(base, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
+            Accept: 'application/json',
           },
           body: JSON.stringify(payload),
         });
-
         if (!res.ok) {
-          lastError = `Instance ${instance} returned ${res.status}`;
+          lastError = `HTTP ${res.status}`;
           continue;
         }
-
         const data = await res.json();
-
-        if (data.status === 'tunnel' || data.status === 'redirect' || data.url) {
+        if (data.status === 'error') {
+          lastError = data.error?.code || data.text || 'cobalt error';
+          continue;
+        }
+        if (data.url || data.tunnel || data.status === 'tunnel' || data.status === 'redirect') {
           return NextResponse.json({
-            message: 'Download ready via Cobalt.',
+            message: 'Ready',
             downloadUrl: data.url || data.tunnel,
-            status: data.status,
             filename: data.filename,
+            status: data.status,
           });
         }
-
         if (data.status === 'picker' && data.picker) {
           return NextResponse.json({
-            message: 'Multiple items found \u2014 open Cobalt to choose.',
-            downloadUrl: `https://cobalt.tools/?u=${encodeURIComponent(url)}`,
+            message: 'Multiple items — pick one',
             picker: data.picker,
+            downloadUrl: data.picker[0]?.url || null,
           });
         }
-
-        if (data.status === 'error') {
-          lastError = data.error?.code || data.text || 'Cobalt error';
-          continue;
+        if (data.url) {
+          return NextResponse.json({ message: 'Ready', downloadUrl: data.url, ...data });
         }
-
-        return NextResponse.json({
-          message: 'Response received',
-          ...data,
-          downloadUrl: data.url || null,
-        });
       } catch (e: any) {
-        lastError = e.message || 'Network error';
-        continue;
+        lastError = e.message || 'network';
       }
     }
 
     return NextResponse.json({
-      message: `Could not reach Cobalt API (${lastError}). Opening the web UI instead.`,
-      downloadUrl: `https://cobalt.tools/?u=${encodeURIComponent(url)}`,
+      message: `Could not process (${lastError}). Try again or different link.`,
+      downloadUrl: null,
     });
   } catch (err: any) {
-    return NextResponse.json(
-      { error: err.message || 'Internal error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: err.message || 'Internal error' }, { status: 500 });
   }
 }
