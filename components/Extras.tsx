@@ -1,49 +1,17 @@
 'use client';
 
-import { Sparkles, Link2, Image, Hash, Terminal, Shield } from 'lucide-react';
+import { Sparkles, Hash, Terminal, Shield, User } from 'lucide-react';
 
 const extras = [
-  {
-    title: 'TikTok No-WM',
-    desc: 'Direct no-watermark TikTok via Cobalt',
-    action: 'Use Cobalt tab -> paste TikTok link',
-    icon: Link2,
-  },
-  {
-    title: 'YouTube Audio',
-    desc: 'Extract high-quality audio only',
-    action: 'Cobalt -> YouTube URL -> audio mode',
-    icon: Hash,
-  },
-  {
-    title: 'Twitter / X Media',
-    desc: 'Videos + images from any public post',
-    action: 'Cobalt or Core Tools',
-    icon: Image,
-  },
-  {
-    title: 'Reddit Video',
-    desc: 'Download Reddit videos + galleries',
-    action: 'Cobalt tab',
-    icon: Terminal,
-  },
-  {
-    title: 'Bulk Image to GIF',
-    desc: 'Sequence of frames to animated GIF',
-    action: 'Core Tools -> Image to GIF',
-    icon: Image,
-  },
-  {
-    title: 'Discord Banner',
-    desc: 'Grab animated banners + avatars',
-    action: 'Core Tools -> Discord Profile',
-    icon: Shield,
-  },
+  { title: 'Discord deep search', desc: 'ID to avatar, banner, bio, badges', action: 'Core Tools then Discord', icon: User },
+  { title: 'YouTube audio only', desc: 'Extract high-quality audio', action: 'Core Tools then YouTube audio only', icon: Hash },
+  { title: 'TikTok no watermark', desc: 'Clean TikTok downloads', action: 'Core Tools then TikTok', icon: Terminal },
+  { title: 'Discord banner + avatar', desc: 'Full-res animated assets', action: 'Core Tools then Discord Search', icon: Shield },
 ];
 
 export default function Extras() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 fade-up">
       <div className="hex-card rounded-2xl p-6 md:p-8">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-900/40 to-hex-ash flex items-center justify-center">
@@ -54,9 +22,6 @@ export default function Extras() {
             <p className="text-xs text-hex-muted font-mono">more power / same black aura</p>
           </div>
         </div>
-        <p className="text-sm text-hex-muted mt-4 leading-relaxed">
-          Extra workflows and shortcuts layered on top of Core + Cobalt. Keep everything in one place.
-        </p>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-3">
@@ -82,22 +47,10 @@ export default function Extras() {
       <div className="hex-card rounded-2xl p-6 border-hex-blood/30">
         <h3 className="font-display font-semibold text-hex-bone mb-3">Hexed Notes</h3>
         <ul className="space-y-2 text-sm text-hex-muted">
-          <li className="flex gap-2">
-            <span className="text-hex-crimson">*</span>
-            All downloaders prefer public content. Private / login-walled media needs your own session.
-          </li>
-          <li className="flex gap-2">
-            <span className="text-hex-crimson">*</span>
-            GIF tools work best with short clips under 15s for clean file size.
-          </li>
-          <li className="flex gap-2">
-            <span className="text-hex-crimson">*</span>
-            Media vault links rotate - if a domain dies, we update the list.
-          </li>
-          <li className="flex gap-2">
-            <span className="text-hex-crimson">*</span>
-            Built for emorce. Black theme. No tracking. No accounts.
-          </li>
+          <li className="flex gap-2"><span className="text-hex-crimson">*</span> All tools stay on this site except Media Vault.</li>
+          <li className="flex gap-2"><span className="text-hex-crimson">*</span> Discord deep search uses public profile sources + CDN.</li>
+          <li className="flex gap-2"><span className="text-hex-crimson">*</span> Upload works for Image/MP4 GIF preview.</li>
+          <li className="flex gap-2"><span className="text-hex-crimson">*</span> discord.gg/emorce</li>
         </ul>
       </div>
     </div>
