@@ -6,13 +6,13 @@ const extras = [
   {
     title: 'TikTok No-WM',
     desc: 'Direct no-watermark TikTok via Cobalt',
-    action: 'Use Cobalt tab \u2192 paste TikTok link',
+    action: 'Use Cobalt tab -> paste TikTok link',
     icon: Link2,
   },
   {
     title: 'YouTube Audio',
     desc: 'Extract high-quality audio only',
-    action: 'Cobalt \u2192 YouTube URL \u2192 audio mode',
+    action: 'Cobalt -> YouTube URL -> audio mode',
     icon: Hash,
   },
   {
@@ -28,15 +28,15 @@ const extras = [
     icon: Terminal,
   },
   {
-    title: 'Bulk Image \u2192 GIF',
-    desc: 'Sequence of frames \u2192 animated GIF',
-    action: 'Core Tools \u2192 Image \u2192 GIF',
+    title: 'Bulk Image to GIF',
+    desc: 'Sequence of frames to animated GIF',
+    action: 'Core Tools -> Image to GIF',
     icon: Image,
   },
   {
     title: 'Discord Banner',
     desc: 'Grab animated banners + avatars',
-    action: 'Core Tools \u2192 Discord Profile',
+    action: 'Core Tools -> Discord Profile',
     icon: Shield,
   },
 ];
@@ -50,8 +50,8 @@ export default function Extras() {
             <Sparkles className="w-5 h-5 text-violet-300" />
           </div>
           <div>
-            <h2 className="font-display font-bold text-xl text-hex-bone">Extras \u271e</h2>
-            <p className="text-xs text-hex-muted font-mono">more power \u00b7 same black aura</p>
+            <h2 className="font-display font-bold text-xl text-hex-bone">Extras</h2>
+            <p className="text-xs text-hex-muted font-mono">more power / same black aura</p>
           </div>
         </div>
         <p className="text-sm text-hex-muted mt-4 leading-relaxed">
@@ -83,19 +83,19 @@ export default function Extras() {
         <h3 className="font-display font-semibold text-hex-bone mb-3">Hexed Notes</h3>
         <ul className="space-y-2 text-sm text-hex-muted">
           <li className="flex gap-2">
-            <span className="text-hex-crimson">\u25b8</span>
+            <span className="text-hex-crimson">*</span>
             All downloaders prefer public content. Private / login-walled media needs your own session.
           </li>
           <li className="flex gap-2">
-            <span className="text-hex-crimson">\u25b8</span>
-            GIF tools work best with short clips (<15s) for clean file size.
+            <span className="text-hex-crimson">*</span>
+            GIF tools work best with short clips under 15s for clean file size.
           </li>
           <li className="flex gap-2">
-            <span className="text-hex-crimson">\u25b8</span>
-            Media vault links rotate \u2014 if a domain dies, we update the list.
+            <span className="text-hex-crimson">*</span>
+            Media vault links rotate - if a domain dies, we update the list.
           </li>
           <li className="flex gap-2">
-            <span className="text-hex-crimson">\u25b8</span>
+            <span className="text-hex-crimson">*</span>
             Built for emorce. Black theme. No tracking. No accounts.
           </li>
         </ul>
