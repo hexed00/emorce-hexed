@@ -1,15 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { Download, Layers, Film, Sparkles } from 'lucide-react';
+import { Download, Layers, Film, Sparkles, FileText, Image as ImageIcon } from 'lucide-react';
 import CoreTools from './CoreTools';
 import CobaltSection from './CobaltSection';
 import MediaVault from './MediaVault';
 import Extras from './Extras';
+import GifTools from './GifTools';
+import DoxPaste from './DoxPaste';
 
 const tabs = [
   { id: 'core', label: 'Core Tools', icon: Download },
   { id: 'cobalt', label: 'Cobalt', icon: Layers },
+  { id: 'gif', label: 'GIF', icon: ImageIcon },
+  { id: 'dox', label: 'Dox Paste', icon: FileText },
   { id: 'media', label: 'Media Vault', icon: Film },
   { id: 'extras', label: 'Extras', icon: Sparkles },
 ];
@@ -40,6 +44,8 @@ export default function Tabs() {
       <div className="min-h-[60vh]">
         {active === 'core' && <CoreTools />}
         {active === 'cobalt' && <CobaltSection />}
+        {active === 'gif' && <GifTools />}
+        {active === 'dox' && <DoxPaste />}
         {active === 'media' && <MediaVault />}
         {active === 'extras' && <Extras />}
       </div>
